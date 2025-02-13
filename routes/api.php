@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/user', [UserController::class, 'index']);
 Route::get ('/login', [AuthController::class, 'login']);
@@ -31,4 +32,10 @@ Route::prefix('products')->group(function () {
     Route::get('/{product}', [ProductController::class, 'show']); // Get product by ID
     Route::put('/{product}', [ProductController::class, 'update']); // Update product
     Route::delete('/{product}', [ProductController::class, 'destroy']); // Delete product
+});
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/orders', [OrderController::class, 'index']); // Get all orders
+    Route::post('/orders', [OrderController::class, 'store']); // Create order
+    Route::get('/orders/{id}', [OrderController::class, 'show']); // Get single order
 });
